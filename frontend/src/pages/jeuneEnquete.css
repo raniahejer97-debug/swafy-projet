@@ -1,0 +1,343 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Sora:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+
+/* ══════════════════════════════════════════
+   SHARED — PAPER & JOURNAL ATOMS
+══════════════════════════════════════════ */
+.jn-wrap,
+.ej-root {
+  min-height: 100vh;
+  background: #c8c3ca;
+  background-image:
+    radial-gradient(ellipse at 15% 10%, rgba(191, 9, 237, 0.467) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 90%, rgba(7, 7, 7, 0.3) 0%, transparent 55%);
+  font-family: 'Sora', system-ui, sans-serif;
+  padding: 40px 20px 100px;
+  animation: jnFadeIn .4s ease;
+}
+@keyframes jnFadeIn { from { opacity:0; transform:scale(.98); } to { opacity:1; transform:scale(1); } }
+
+/* ── Paper ── */
+.jn-paper,
+.ej-paper {
+  max-width: 660px;
+  margin: 0 auto;
+  background: #e7e1e9;
+  box-shadow:
+    0 2px 4px rgba(0,0,0,.06),
+    0 18px 56px rgba(0,0,0,.14),
+    inset 0 0 0 1px rgba(190,170,130,.18);
+  border-radius: 2px;
+  padding: 64px 72px 56px;
+  position: relative;
+}
+
+/* ── Corner decorations ── */
+.jn-corner {
+  position: absolute; width: 18px; height: 18px;
+  border-style: solid; border-color: rgba(170,145,90,.35);
+}
+.jn-tl { top:16px; left:16px;  border-width:1.5px 0 0 1.5px; }
+.jn-tr { top:16px; right:16px; border-width:1.5px 1.5px 0 0; }
+.jn-bl { bottom:16px; left:16px;  border-width:0 0 1.5px 1.5px; }
+.jn-br { bottom:16px; right:16px; border-width:0 1.5px 1.5px 0; }
+
+/* ── Masthead ── */
+.jn-masthead { text-align: center; margin-bottom: 44px; }
+.jn-day {
+  font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500;
+  color: #8d6d05; letter-spacing: 2.5px; text-transform: uppercase;
+  display: block; margin-bottom: 14px;
+}
+.jn-ruling {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(150,125,70,.25) 25%, rgba(150,125,70,.25) 75%, transparent);
+  margin: 12px 0;
+}
+.jn-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 30px; font-weight: 700; color: #1a1710;
+  letter-spacing: 4px; text-transform: uppercase; line-height: 1.2;
+  margin: 8px 0 4px;
+}
+.jn-subtitle {
+  font-family: 'Playfair Display', serif;
+  font-style: italic; font-size: 13px; color: #907850; margin-top: 6px;
+}
+
+/* ── Body ── */
+.jn-body { display: flex; flex-direction: column; }
+.jn-empty-hint {
+  text-align: center; padding: 28px 0; font-style: italic;
+  font-size: 13px; color: #c4ae88;
+  font-family: 'Playfair Display', serif;
+}
+
+/* ── Row (question) ── */
+.jn-row {
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(170,145,90,.12);
+  display: flex; gap: 12px; align-items: flex-start;
+  animation: jnRowIn .35s ease both;
+  transition: background .15s;
+}
+@keyframes jnRowIn { from { opacity:0; transform:translateX(-10px); } to { opacity:1; transform:translateX(0); } }
+.jn-row:hover .jn-q-btns { opacity: 1; }
+.jn-row-editing { background: rgba(245,240,228,.6); border-radius: 8px; padding: 16px; margin: 4px -16px; }
+
+/* Question content */
+.jn-q-main { flex: 1; }
+.jn-q-text {
+  font-family: 'Playfair Display', serif;
+  font-style: italic; font-size: 14px; color: #2a2418; line-height: 1.5;
+  margin-bottom: 10px;
+}
+.jn-lines { display: flex; flex-direction: column; gap: 14px; margin-top: 8px; }
+.jn-line {
+  height: 1px;
+  background: repeating-linear-gradient(90deg, rgba(150,120,60,.3) 0, rgba(150,120,60,.3) 4px, transparent 4px, transparent 10px);
+}
+
+/* Options (radio/checkbox view) */
+.jn-q-opts { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+.jn-q-opt { display: flex; align-items: center; gap: 10px; }
+.jn-circle {
+  width: 13px; height: 13px; border-radius: 50%;
+  border: 1.5px solid rgba(150,120,60,.4); flex-shrink: 0;
+}
+.jn-box {
+  width: 12px; height: 12px; border-radius: 2px;
+  border: 1.5px solid rgba(150,120,60,.4); flex-shrink: 0;
+}
+.jn-q-opt span { font-size: 12.5px; color: #6a5a40; border-bottom: 1px solid rgba(150,120,60,.15); flex: 1; padding-bottom: 4px; }
+
+/* ── Per-question buttons ── */
+.jn-q-btns {
+  display: flex; flex-direction: column; gap: 4px;
+  opacity: 0; transition: opacity .18s; flex-shrink: 0;
+}
+.jn-q-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: 'Sora', sans-serif; font-size: 10.5px; font-weight: 600;
+  border: none; cursor: pointer; border-radius: 7px; padding: 5px 10px;
+  transition: all .15s; white-space: nowrap;
+}
+.jn-q-edit { background: rgba(160,130,70,.1); color: #6a5030; }
+.jn-q-edit:hover { background: rgba(160,130,70,.22); }
+.jn-q-del  { background: rgba(200,60,60,.07); color: #9a4040; }
+.jn-q-del:hover  { background: rgba(200,60,60,.18); }
+
+/* ── Edit / Add blocks ── */
+.jn-edit-block,
+.jn-add-block {
+  flex: 1;
+  background: rgba(248,244,232,.8);
+  border: 1.5px solid rgba(160,130,70,.2);
+  border-radius: 12px; padding: 16px; margin: 2px 0;
+  animation: jnRowIn .25s ease;
+}
+.jn-add-block { margin-top: 12px; }
+.jn-add-label {
+  font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 2px;
+  text-transform: uppercase; color: #a09060; margin-bottom: 12px;
+}
+.jn-edit-input {
+  width: 100%; background: transparent;
+  border: none; border-bottom: 1.5px solid rgba(150,120,60,.4);
+  font-family: 'Playfair Display', serif; font-style: italic;
+  font-size: 14px; color: #2a2418; outline: none; padding: 4px 0;
+  transition: border-color .18s;
+}
+.jn-edit-input:focus { border-bottom-color: #907040; }
+.jn-edit-input::placeholder { color: rgba(150,120,60,.4); }
+
+/* Type selector */
+.jn-type-row { display: flex; gap: 6px; margin-bottom: 10px; }
+.jn-type-btn {
+  flex: 1; padding: 6px 8px; border-radius: 7px;
+  border: 1.5px solid rgba(150,120,60,.2); background: #fff;
+  font-family: 'Sora', sans-serif; font-size: 10.5px; font-weight: 600;
+  color: #a09070; cursor: pointer; transition: all .15s;
+}
+.jn-type-btn.active { border-color: #907040; color: #60421a; background: rgba(144,112,64,.08); }
+
+/* Options editor */
+.jn-opts-editor { display: flex; flex-direction: column; gap: 7px; margin-top: 10px; }
+.jn-opt-row { display: flex; align-items: center; gap: 8px; }
+.jn-opt-bullet { width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid rgba(150,120,60,.4); flex-shrink: 0; }
+.jn-opt-input {
+  flex: 1; background: transparent; border: none;
+  border-bottom: 1px solid rgba(150,120,60,.25);
+  font-family: 'Sora', sans-serif; font-size: 12.5px; color: #4a3a24;
+  padding: 3px 0; outline: none;
+}
+.jn-opt-input::placeholder { color: rgba(150,120,60,.35); }
+.jn-rm-opt { background: rgba(200,60,60,.08); border: none; color: #9a5050; width: 24px; height: 24px; border-radius: 5px; cursor: pointer; font-size: 15px; flex-shrink: 0; }
+.jn-rm-opt:hover { background: rgba(200,60,60,.18); }
+.jn-add-opt { background: none; border: none; color: rgba(150,120,60,.5); font-size: 11px; cursor: pointer; font-family: 'Sora', sans-serif; padding: 3px 0; transition: color .15s; }
+.jn-add-opt:hover { color: #907040; }
+
+/* Form actions */
+.jn-form-actions { display: flex; gap: 8px; margin-top: 12px; }
+.jn-btn-save {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #2a2418; color: #f4f1ea;
+  font-family: 'Sora', sans-serif; font-size: 11.5px; font-weight: 600;
+  border: none; cursor: pointer; border-radius: 8px; padding: 8px 16px;
+  transition: all .18s;
+}
+.jn-btn-save:hover { background: #1a1410; transform: translateY(-1px); }
+.jn-btn-cancel {
+  background: rgba(150,120,60,.1); color: #907050; border: none;
+  font-family: 'Sora', sans-serif; font-size: 11.5px; font-weight: 600;
+  cursor: pointer; border-radius: 8px; padding: 8px 16px; transition: all .18s;
+}
+.jn-btn-cancel:hover { background: rgba(150,120,60,.18); }
+
+/* ── Footer ── */
+.jn-footer { display: flex; align-items: center; gap: 14px; margin-top: 44px; padding-top: 20px; }
+.jn-foot-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(150,125,70,.2) 50%, transparent); }
+.jn-footer span { font-family: 'DM Mono', monospace; font-size: 9px; color: rgba(150,120,60,.35); letter-spacing: 2.5px; text-transform: uppercase; white-space: nowrap; }
+
+/* ══════════════════════════════════════════
+   ADMIN — ACTION BAR
+══════════════════════════════════════════ */
+.jn-bar {
+  max-width: 660px; margin: 20px auto 0;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; flex-wrap: wrap;
+}
+.jn-bar-right { display: flex; gap: 10px; flex-wrap: wrap; }
+.jn-bar-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 600;
+  border: none; cursor: pointer; border-radius: 12px; padding: 12px 22px;
+  transition: all .2s; white-space: nowrap;
+}
+.jn-bar-add { background: #2a2418; color: #f4f1ea; box-shadow: 0 4px 16px rgba(42,36,24,.25); }
+.jn-bar-add:hover { background: #1a1410; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(42,36,24,.35); }
+.jn-bar-pdf { background: #fff; color: #3b7ad9; border: 1.5px solid #bfdbfe; }
+.jn-bar-pdf:hover { background: #eff6ff; transform: translateY(-1px); }
+.jn-bar-share {
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  color: #fff; box-shadow: 0 4px 16px rgba(79,70,229,.3);
+}
+.jn-bar-share:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(79,70,229,.4); }
+.jn-bar-share:disabled { opacity: .7; cursor: not-allowed; }
+.jn-shared  { background: linear-gradient(135deg, #059669, #10b981) !important; box-shadow: 0 4px 16px rgba(16,185,129,.3) !important; }
+.jn-sharing { background: #6366f1 !important; opacity: .8; }
+
+/* Spinner */
+.jn-spin {
+  display: inline-block; width: 12px; height: 12px;
+  border: 2px solid rgba(255,255,255,.3); border-top-color: #fff;
+  border-radius: 50%; animation: jnSpin .6s linear infinite;
+}
+@keyframes jnSpin { to { transform: rotate(360deg); } }
+
+/* Toast */
+.jn-toast {
+  position: fixed; top: 20px; right: 20px; z-index: 9999;
+  background: #2a2418; color: #f4f1ea;
+  padding: 13px 20px; border-radius: 12px;
+  font-size: 13px; font-weight: 500; font-family: 'Sora', sans-serif;
+  box-shadow: 0 8px 28px rgba(42,36,24,.25);
+  border-left: 4px solid #a07840;
+  animation: jnToastIn .3s ease;
+}
+.jn-toast-err { border-left-color: #e05555; background: #3a1414; }
+@keyframes jnToastIn { from { transform: translateX(40px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+/* ══════════════════════════════════════════
+   JEUNE — ANSWER PAGE
+══════════════════════════════════════════ */
+.ej-loading {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  background: #ede9e1;
+}
+.ej-spinner {
+  width: 36px; height: 36px;
+  border: 3px solid rgba(150,120,60,.2); border-top-color: #907040;
+  border-radius: 50%; animation: jnSpin .7s linear infinite;
+}
+.ej-error-box { text-align: center; padding: 40px; }
+.ej-error-icon { font-size: 48px; margin-bottom: 16px; }
+.ej-error-box p { color: #6a5a40; font-size: 14px; margin-bottom: 20px; }
+.ej-btn-back { background: #2a2418; color: #f4f1ea; border: none; padding: 10px 20px; border-radius: 10px; font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; }
+
+.ej-error-banner {
+  max-width: 660px; margin: 0 auto 16px;
+  background: #fef2f2; border: 1.5px solid #fecaca; border-radius: 10px;
+  padding: 12px 18px; font-size: 13px; color: #b91c1c; font-weight: 500;
+}
+
+/* Question blocks (jeune) */
+.ej-q-block { padding: 20px 0; border-bottom: 1px solid rgba(170,145,90,.12); }
+.ej-q-block .jn-q-text { margin-bottom: 14px; }
+
+/* Textarea */
+.ej-text-wrap { margin-top: 4px; }
+.ej-textarea {
+  width: 100%; background: transparent;
+  border: none; border-bottom: 1.5px solid rgba(150,120,60,.3);
+  font-family: 'Playfair Display', serif; font-size: 13px; color: #2a2418;
+  padding: 6px 0; outline: none; resize: none; line-height: 1.7;
+  transition: border-color .18s;
+}
+.ej-textarea:focus { border-bottom-color: #907040; }
+.ej-textarea::placeholder { color: rgba(150,120,60,.35); font-style: italic; }
+
+/* Options (radio/checkbox jeune) */
+.ej-opts { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+.ej-opt-label {
+  display: flex; align-items: center; gap: 12px; cursor: pointer;
+  padding: 10px 14px; border-radius: 9px;
+  border: 1.5px solid rgba(150,120,60,.15);
+  background: rgba(255,255,255,.5);
+  transition: all .15s; font-size: 13px; color: #4a3a24;
+}
+.ej-opt-label:hover { border-color: rgba(150,120,60,.35); background: rgba(255,255,255,.8); }
+.ej-opt-selected { border-color: #907040 !important; background: rgba(144,112,64,.08) !important; }
+
+.ej-radio {
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 2px solid rgba(150,120,60,.3); flex-shrink: 0; transition: all .15s;
+}
+.ej-radio-on { border-color: #907040; background: #907040; box-shadow: inset 0 0 0 3px #faf8f4; }
+
+.ej-checkbox {
+  width: 15px; height: 15px; border-radius: 3px;
+  border: 2px solid rgba(150,120,60,.3); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; transition: all .15s;
+}
+.ej-checkbox-on { border-color: #907040; background: #907040; color: #fff; }
+
+/* Submit bar */
+.ej-submit-bar {
+  max-width: 660px; margin: 24px auto 0; text-align: center;
+}
+.ej-submit-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #2a2418; color: #f4f1ea;
+  font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 600;
+  border: none; cursor: pointer; border-radius: 14px; padding: 15px 36px;
+  transition: all .2s; box-shadow: 0 4px 18px rgba(42,36,24,.25);
+}
+.ej-submit-btn:hover:not(:disabled) { background: #1a1410; transform: translateY(-2px); box-shadow: 0 6px 24px rgba(42,36,24,.35); }
+.ej-submit-btn:disabled { opacity: .7; cursor: not-allowed; }
+.ej-submitting { background: #4a3818; }
+.ej-submit-hint { font-size: 11px; color: rgba(150,120,60,.5); margin-top: 10px; font-family: 'DM Mono', monospace; letter-spacing: 1px; }
+
+/* Done state */
+.ej-paper-done { text-align: center; padding: 80px 60px; }
+.ej-done-icon {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: #2a2418; color: #f4f1ea;
+  font-size: 32px; display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 24px; box-shadow: 0 8px 32px rgba(42,36,24,.2);
+}
+.ej-done-title {
+  font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700;
+  color: #1a1710; margin-bottom: 10px;
+}
+.ej-done-sub { font-size: 14px; color: #907850; }
+.ej-done-hint { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(150,120,60,.4); letter-spacing: 1.5px; text-transform: uppercase; }
