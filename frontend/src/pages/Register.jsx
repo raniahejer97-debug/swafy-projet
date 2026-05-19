@@ -84,50 +84,51 @@ useEffect(() => {
   };
 
   // STEP 2: Send Owner Check
- const sendOwnerCheck = async () => {
-  if (!form.email_user.includes("@")) return alert("Email invalide");
+ 
+const sendOwnerCheck = async () => {
+  console.log("✅ CLICKED");
+
+  // ✅ validation صحيحة
+  if (!form.email_user || !form.email_user.includes("@")) {
+    alert("Email invalide");
+    setLoading(false);
+    return;
+  }
 
   setLoading(true);
   setMessage({ type: "", text: "" });
 
   try {
-    
+    console.log("🚀 SENDING REQUEST...");
+
     const res = await API.post("/auth/send-password-code-v2", {
-      email_user: form.email_user
+      email_user: form.email_user.trim()
     });
+
+    console.log("✅ RESPONSE:", res.data);
 
     setCodeSent(true);
     setStep(3);
+
     setMessage({
       type: "success",
-      text: " Code secret envoyé à votre email !"
+      text: "Code secret envoyé à votre email ✅"
     });
+
   } catch (err) {
+    console.log("❌ ERROR:", err);
+
     setMessage({
       type: "error",
       text: err.response?.data?.message || "Erreur envoi code."
     });
-  }
 
-  setLoading(false);
+  } finally {
+    
+    setLoading(false);
+  }
 };
 
-  const checkOwnerStatus = async () => {
-    setLoading(true);
-    try {
-      const res = await API.post("/auth/check-owner-status", { email_user: form.email_user });
-      if (res.data.verified) {
-        setOwnerConfirmed(true);
-        setMessage({ type: "success", text: " Propriétaire confirmé !" });
-        setStep(3);
-      } else {
-        alert("❌ Vous n'avez pas encore cliqué sur 'OUI' dans l'email.");
-      }
-    } catch (err) {
-      alert("Erreur vérification.");
-    }
-    setLoading(false);
-  };
 
   // STEP 3: Send Password Code
   const sendPasswordCode = async () => {
@@ -283,7 +284,13 @@ useEffect(() => {
                 <label>Email *</label>
                 <input type="email" name="email_user" value={form.email_user} onChange={handleChange} placeholder="hejarlabbedi@gmail.com" />
               </div>
-              <button onClick={sendOwnerCheck} className="register-submit-btn full-width" disabled={loading}>
+              
+                <button 
+                  type="button" 
+                  onClick={sendOwnerCheck} 
+                  className="register-submit-btn full-width" 
+                  disabled={loading}>
+
                 {loading ? "Envoi..." : "Envoyer Vérification"}
               </button>
               <p style={{marginTop: 15, color: "#666", fontSize: 14}}>
