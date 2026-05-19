@@ -134,7 +134,7 @@ const sendOwnerCheck = async () => {
   const sendPasswordCode = async () => {
     setLoading(true);
     try {
-      const res = await API.post("/api/auth/send-password-code-v2", { email_user: form.email_user });
+      const res = await API.post("/auth/send-password-code-v2", { email_user: form.email_user });
       setCodeSent(true);
       setMessage({ type: "success", text: res.data.message });
     } catch (err) {

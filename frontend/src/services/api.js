@@ -1,19 +1,19 @@
+
 import axios from "axios";
 
 const API = axios.create({
   baseURL: "https://swafy-projet.onrender.com/api",
+  headers: {
+    "Content-Type": "application/json"
+  }
 });
-/* =========================
-    RESPONSE INTERCEPTOR
-========================= */
+
 API.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
 
     if (token && !config.url.includes("/auth/")) {
-      //  نضمنو headers موجود
       config.headers = config.headers || {};
-
       config.headers["Authorization"] = `Bearer ${token}`;
     }
 
