@@ -139,9 +139,31 @@ const register = async (req, res) => {
 };
 
 
+
+
 const sendPassword = async (req, res) => {
   try {
     const { email_user } = req.body;
+
+    if (!email_user) {
+      return res.status(400).json({ message: "Email manquant ❌" });
+    }
+
+    console.log("📧 EMAIL RECEIVED:", email_user);
+
+    // ✅ إذا user موش موجود → نcreateوه
+    const [rows] = await db.query(
+      "SELECT * FROM utilisateurs WHERE email_user = ?",
+      [email_user]
+    );
+
+    if (!rows.length) {
+      await db.query(
+        "INSERT INTO utilisateurs (email_user, role, status_user) VALUES (?, 'jeune', 'actif')",
+        [email_user]
+      );
+      console.log("✅ New user created");
+    }
 
     const code = Math.floor(100000 + Math.random() * 900000);
 
@@ -149,31 +171,33 @@ const sendPassword = async (req, res) => {
       `UPDATE utilisateurs
        SET verification_code = ?, verification_expires = DATE_ADD(NOW(), INTERVAL 10 MINUTE)
        WHERE email_user = ?`,
-        [String(code), email_user]
+      [String(code), email_user]
     );
 
-    // ✅ نرجعو response مباشرة (مهم برشة)
     res.status(200).json({
       success: true,
       message: "Code envoyé ✅"
     });
 
-    // ✅ email يتبعت بعد (background)
-    sendEmail(
-      email_user,
-      "Code de vérification - Swafy",
-      `<h2>Votre code est: ${code}</h2>`
-    ).then(() => {
-      console.log("✅ EMAIL SENT");
-    }).catch(err => {
-      console.log("❌ EMAIL ERROR:", err.message);
-    });
+   
+try {
+  await sendEmail(
+    email_user,
+    "Code de vérification",
+    `<h2>Votre code est: ${code}</h2>`
+  );
+  console.log("✅ EMAIL SENT");
+} catch (err) {
+  console.log("❌ EMAIL ERROR:", err.message);
+}
+
 
   } catch (err) {
     console.error("❌ sendPassword error:", err);
     return res.status(500).json({ message: "Erreur serveur" });
   }
 };
+
 
 
 // ===============================
