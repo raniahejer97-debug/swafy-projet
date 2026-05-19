@@ -118,7 +118,7 @@ const register = async (req, res) => {
       `UPDATE utilisateurs
        SET verification_code = ?, verification_expires = DATE_ADD(NOW(), INTERVAL 10 MINUTE)
        WHERE email_user = ?`,
-      [code, email_user]
+      [String(code), email_user]
     );
 
     // ✅ SEND EMAIL
@@ -149,7 +149,7 @@ const sendPassword = async (req, res) => {
       `UPDATE utilisateurs
        SET verification_code = ?, verification_expires = DATE_ADD(NOW(), INTERVAL 10 MINUTE)
        WHERE email_user = ?`,
-      [code, email_user]
+        [String(code), email_user]
     );
 
     // ✅ نرجعو response مباشرة (مهم برشة)
@@ -188,7 +188,7 @@ const verifyCode = async (req, res) => {
        WHERE email_user = ? 
        AND verification_code = ? 
        AND verification_expires > NOW()`,
-      [email_user, code]
+      [email_user, String(code)]
     );
 
     if (!rows.length) {
@@ -251,7 +251,7 @@ const registerFinal = async (req, res) => {
        WHERE email_user = ? 
        AND verification_code = ?
        AND verification_expires > NOW()`,
-      [email_user, mot_de_passe_user]
+      [email_user, String(mot_de_passe_user)]
     );
 
     if (!rows.length) {
