@@ -41,12 +41,19 @@ const server = http.createServer(app);
 // ✅ MIDDLEWARE
 // ===============================
 
-app.use(cors({
-  origin: "*",
-  methods: ["GET", "POST", "PUT", "DELETE"],
-}));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
+const corsOptions = {
+  origin: [
+    "http://localhost:5173",
+    "https://swafy-front.onrender.com"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); 
 
 // ===============================
 // ✅ API ROUTES
@@ -97,7 +104,7 @@ app.get("/api/test-email", async (req, res) => {
 
 
 // ===============================
-// ✅ SOCKET.IO
+//  SOCKET.IO
 // ===============================
 const io = new Server(server, {
   cors: {
