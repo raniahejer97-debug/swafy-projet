@@ -35,7 +35,6 @@ router.get("/lives", verifyToken, async (req, res) => {
 ══════════════════════════════════════════ */
 router.get("/", verifyToken, async (req, res) => {
   try {
-    console.log("ROWS:", rows);
     const [rows] = await db.query(`
       SELECT 
         e.*,
