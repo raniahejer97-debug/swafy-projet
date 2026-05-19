@@ -53,8 +53,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions)); 
-
 // ===============================
 // ✅ API ROUTES
 // ===============================
@@ -265,6 +263,19 @@ seedAdmin();
 app.get("/api/test-final", (req, res) => {
   res.json({ ok: true, msg: "SERVER ROUTE OK" });
 });
+
+app.get("/api/debug-db", async (req, res) => {
+  try {
+    const [cols] = await db.query("SHOW COLUMNS FROM utilisateurs");
+    console.log("📊 COLUMNS:", cols);
+
+    res.json(cols);
+  } catch (err) {
+    console.error("❌ DB ERROR:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 server.listen(PORT, () => {
   console.log(`✅ Serveur lancé sur port ${PORT}`);
 });
