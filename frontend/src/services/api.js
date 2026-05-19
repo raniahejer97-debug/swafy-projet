@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://swafy-backend.onrender.com/api",
+  baseURL: "https://swafy-projet.onrender.com/api",
 });
 /* =========================
     RESPONSE INTERCEPTOR
