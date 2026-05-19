@@ -33,8 +33,13 @@ const login = async (req, res) => {
   try {
     console.log("BODY:", req.body);
 
-    const email = req.body.email || req.body.email_user;
-    const password = req.body.password || req.body.mot_de_passe_user;
+// ✅ IMPORTANT 🔥
+if (!req.body) {
+  return res.status(400).json({ message: "Body vide" });
+}
+
+const email = req.body.email || req.body.email_user;
+const password = req.body.password || req.body.mot_de_passe_user;
 
     // ✅ ✅ أهم check
     if (!email || !password) {
