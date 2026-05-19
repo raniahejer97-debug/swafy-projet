@@ -275,10 +275,11 @@ app.get("/api/debug-db", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
+console.log("🔥 NEW BUILD VERSION V2 ✅✅✅");
 server.listen(PORT, () => {
   console.log(`✅ Serveur lancé sur port ${PORT}`);
 });
+
 const messaging = io.of("/messaging");
 
 const connectedUsers = new Map();
