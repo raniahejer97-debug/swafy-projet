@@ -46,6 +46,8 @@ app.use(cors({
   methods: ["GET", "POST", "PUT", "DELETE"],
 }));
 app.use(express.json());
+app.options("*", cors());
+
 // ===============================
 // ✅ API ROUTES
 // ===============================

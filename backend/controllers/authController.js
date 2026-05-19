@@ -79,7 +79,7 @@ const login = async (req, res) => {
     res.json({ token, user });
 
   } catch (err) {
-    console.error("LOGIN ERROR:", err);  مهم
+    console.error("LOGIN ERROR:", err); 
     res.status(500).json({ message: "Erreur serveur" });
   }
 };
