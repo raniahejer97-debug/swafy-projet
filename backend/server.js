@@ -42,13 +42,9 @@ const server = http.createServer(app);
 // ===============================
 
 app.use(cors({
-  origin: true,
-  credentials: true,
-  methods: ["GET","POST","PUT","DELETE"],
-  allowedHeaders: ["Content-Type","Authorization"]
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
 }));
-
-app.use(express.json());
 // ===============================
 // ✅ API ROUTES
 // ===============================
