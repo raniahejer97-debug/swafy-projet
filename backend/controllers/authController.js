@@ -143,25 +143,8 @@ const sendPassword = async (req, res) => {
   try {
     const { email_user } = req.body;
 
-    // ✅ generate code
     const code = Math.floor(100000 + Math.random() * 900000);
 
-    // ✅ check if user exists
-    const [existing] = await db.query(
-      "SELECT * FROM utilisateurs WHERE email_user = ?",
-      [email_user]
-    );
-
-    // ✅ create user if not exists
-    if (!existing.length) {
-      await db.query(
-        `INSERT INTO utilisateurs (nom_user, email_user, role, status_user)
-         VALUES (?, ?, 'jeune', 'actif')`,
-        ["JeuneTest", email_user]
-      );
-    }
-
-    // ✅ save code in DB
     await db.query(
       `UPDATE utilisateurs
        SET verification_code = ?, verification_expires = DATE_ADD(NOW(), INTERVAL 10 MINUTE)
@@ -169,23 +152,26 @@ const sendPassword = async (req, res) => {
       [code, email_user]
     );
 
-    // ✅ SEND EMAIL 🔥🔥🔥
-    await sendEmail(
+    // ✅ نرجعو response مباشرة (مهم برشة)
+    res.status(200).json({
+      success: true,
+      message: "Code envoyé ✅"
+    });
+
+    // ✅ email يتبعت بعد (background)
+    sendEmail(
       email_user,
       "Code de vérification - Swafy",
       `<h2>Votre code est: ${code}</h2>`
-    );
-
-    console.log("✅ CODE SENT:", code);
-
-    return res.json({
-      success: true,
-      message: "Code envoyé ✅",
+    ).then(() => {
+      console.log("✅ EMAIL SENT");
+    }).catch(err => {
+      console.log("❌ EMAIL ERROR:", err.message);
     });
 
   } catch (err) {
     console.error("❌ sendPassword error:", err);
-    res.status(500).json({ message: "Erreur serveur" });
+    return res.status(500).json({ message: "Erreur serveur" });
   }
 };
 
