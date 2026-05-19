@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const https = require("https");
 const seedAdmin = async () => {
 const email = "admin@gmail.com";
-const plainPassword = "adminadmin";
+const plainPassword = "Admin@2024";
 const { sendEmail } = require("../utils/mailer");
 
   // ✅ شيك هل موجود
@@ -13,7 +13,6 @@ const { sendEmail } = require("../utils/mailer");
     "SELECT * FROM utilisateurs WHERE email_user = ?",
     [email]
   );
-
   if (rows.length > 0) {
     console.log("✅ Admin already exists");
     return;
