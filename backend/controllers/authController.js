@@ -84,7 +84,7 @@ const password = req.body.password || req.body.mot_de_passe_user;
     res.json({ token, user });
 
   } catch (err) {
-    console.error("LOGIN ERROR:", err); 
+    console.error("LOGIN ERROR:", err);
     res.status(500).json({ message: "Erreur serveur" });
   }
 };
