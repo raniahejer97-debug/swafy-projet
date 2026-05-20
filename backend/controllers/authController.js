@@ -102,17 +102,16 @@ const sendPassword = async (req, res) => {
 
     console.log("📧 EMAIL RECEIVED:", email_user);
 
-    // ✅ إذا user موش موجود → نcreateوه
     let [rows] = await db.query(
       "SELECT * FROM utilisateurs WHERE email_user = ?",
       [email_user]
     );
 
     if (!rows.length) {
-      await db.query(
-        "INSERT INTO utilisateurs (email_user, role, status_user) VALUES (?, 'jeune', 'actif')",
-        [email_user]
-      );
+        await db.query(
+          "INSERT INTO utilisateurs (nom_user, email_user, role, status_user) VALUES (?, ?, 'jeune', 'actif')",
+          ["temp", email_user]
+        );
       console.log("✅ New user created");
     }
 
@@ -228,10 +227,7 @@ const registerFinal = async (req, res) => {
         WHERE email_user = ?`,
       [hashedPassword, email_user.trim()]
     );
-
     console.log("🔐 PASSWORD GENERATED:", newPassword);
-
-    // ✅ إرسال password
     await sendEmail(
       email_user,
       "Votre mot de passe",
