@@ -112,6 +112,7 @@ const sendPassword = async (req, res) => {
           "INSERT INTO utilisateurs (nom_user, email_user, role, status_user) VALUES (?, ?, 'jeune', 'actif')",
           ["temp", email_user]
         );
+        console.log("🔥 VERSION 3 SEND PASSWORD");
       console.log("✅ New user created");
     }
 
