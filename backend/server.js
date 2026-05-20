@@ -269,7 +269,7 @@ app.get("/api/debug-db", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-console.log("🔥 NEW BUILD VERSION V2 ✅✅✅");
+console.log("🔥 NEW BUILD VERSION V3 ✅✅✅");
 server.listen(PORT, () => {
   console.log(`✅ Serveur lancé sur port ${PORT}`);
 });
