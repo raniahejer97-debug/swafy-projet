@@ -31,54 +31,26 @@ router.get("/admins", verifyToken, async (req, res) => {
    GET /messages/jeunes                    ← NOUVEAU
    → liste les jeunes (pour la page admin)
 ══════════════════════════════════════════ */
+
 router.get("/jeunes", verifyToken, async (req, res) => {
   try {
     if (req.user.role !== "admin") {
       return res.status(403).json({ message: "Admin seulement" });
     }
 
-    /*
-      UNION des deux sources :
-        1. utilisateurs  WHERE role IN ('jeune','jeune_profile')
-        2. jeune_profiles (table dédiée) — on prend toutes les lignes
-           et on fait un LEFT JOIN sur utilisateurs pour récupérer nom/prénom
-           si la table jeune_profiles les stocke directement, adaptez les colonnes.
+    const [rows] = await db.query(
+      "SELECT id_user, nom_user, prenom_user FROM utilisateurs WHERE role='jeune'"
+    );
 
-      On déduplique par id_user avec GROUP BY.
-    */
-    const [jeunes] = await db.query(`
-      SELECT id_user, nom_user, prenom_user, role, 'utilisateurs' AS source
-      FROM ${USERS_TABLE}
-      WHERE role IN ('jeune', 'jeune_profile')
+    console.log("✅ JEUNES FROM DB:", rows);
 
-      UNION
-
-      SELECT
-        jp.id_user,
-        COALESCE(jp.nom,   u.nom_user,   'Jeune')   AS nom_user,
-        COALESCE(jp.prenom, u.prenom_user, '')       AS prenom_user,
-        'jeune'                                      AS role,
-        'jeune_profiles'                             AS source
-      FROM jeune_profiles jp
-      LEFT JOIN ${USERS_TABLE} u ON u.id_user = jp.id_user
-
-      ORDER BY nom_user ASC
-    `);
-
-    /* dédupliquer côté serveur si un user est dans les 2 tables */
-    const seen = new Set();
-    const unique = (jeunes || []).filter(j => {
-      if (seen.has(j.id_user)) return false;
-      seen.add(j.id_user);
-      return true;
-    });
-
-    res.json(unique);
+    res.json(rows);
   } catch (err) {
-    console.error("❌ GET /jeunes error:", err.message);
+    console.error("❌ ERROR BACK:", err);
     res.status(500).json({ error: err.message });
   }
 });
+
 /* ══════════════════════════════════════════
    GET /messages/conversations
    → toutes les conversations du user connecté
