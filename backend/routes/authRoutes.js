@@ -6,7 +6,7 @@ const pool = require("../config/db");
 // ✅ IMPORT من authController (نفس الاسم)
 const {
   login,
-  register,
+ 
   sendPassword,
   verifyCode,
   registerFinal
@@ -14,7 +14,7 @@ const {
 
 // ✅ ROUTES AUTH
 router.post("/login", login);
-router.post("/register", register);
+
 router.post("/send-password-code-v2", sendPassword);
 router.post("/verify-code", verifyCode);
 router.post("/register-final", registerFinal);
